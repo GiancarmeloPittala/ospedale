@@ -1,5 +1,5 @@
 -- drop database ospedale;
-create database IF NOT EXISTS  ospedale; 
+-- create database IF NOT EXISTS  ospedale; 
 use heroku_aea42162b6df481;
 -- use ospedale; 
 
