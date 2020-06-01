@@ -1,9 +1,9 @@
 <?php
 $createDB = file_get_contents( 'core/database/create.sql' );
-$servername = "localhost";
-$username = "root";
-$password = "";
-
+// $servername = "localhost";
+// $username = "root";
+// $password = "";
+$servername = "eu-cdbr-west-03.cleardb.net";
 $username = "b4838df2bd8c99";
 $password = "37af57a8";
 
