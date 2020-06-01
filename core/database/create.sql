@@ -1,6 +1,7 @@
 -- drop database ospedale;
--- create database IF NOT EXISTS  ospedale; 
-use heroku_aea42162b6df481; 
+create database IF NOT EXISTS  ospedale; 
+use heroku_aea42162b6df481;
+-- use ospedale; 
 
 create table IF NOT EXISTS pazienti (
   id int(6) not null auto_increment primary key,
