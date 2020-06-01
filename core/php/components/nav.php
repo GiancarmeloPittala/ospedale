@@ -1,8 +1,4 @@
-<?php
-
-
-?>
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav class=" navbar navbar-expand-lg navbar-light bg-light">
   <a class="navbar-brand" href="index.php">Ospedale</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
@@ -38,3 +34,10 @@
       <?php } } ?>
   </div>
 </nav>
+
+<?php if (isset($_SESSION['login_name']) && isset($_SESSION['login_ruolo'])) {?>
+<p class="text-right mt-4">
+  <span class="border p-3" style="border-radius: 20px" ><?= $_SESSION['login_name'] ?> | <?= $_SESSION['login_ruolo'] ?></span>
+</p>
+
+<?php } ?>

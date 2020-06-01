@@ -1,3 +1,4 @@
+
 create database IF NOT EXISTS ospedale;
 use ospedale;
 
@@ -43,13 +44,13 @@ CREATE TABLE IF NOT EXISTS prescrizioni (
   data_inserimento DATETIME default now(),
 
   CONSTRAINT FK_prescrizione_farmaco FOREIGN KEY (id_farmaco)
-  REFERENCES farmaci(id),
+  REFERENCES farmaci(id) ON UPDATE RESTRICT ON DELETE RESTRICT,
 
   CONSTRAINT FK_prescrizione_paziente FOREIGN KEY (id_paziente)
-  REFERENCES pazienti(id),
+  REFERENCES pazienti(id) ON DELETE SET NULL,
 
   CONSTRAINT FK_prescrizione_medico FOREIGN KEY (id_medico)
-  REFERENCES medici(id) 
+  REFERENCES medici(id) ON UPDATE RESTRICT ON DELETE RESTRICT,
 
 ) engine = innoDB;
 
@@ -57,8 +58,8 @@ CREATE TABLE IF NOT EXISTS magazzino (
   id int(6) not null auto_increment primary key,
   id_reparto int(6) not null,
   id_farmaco int(6) not null,
-  qta float(3,2) null default 0,
-  max_qta float(3,2) null default 0, 
+  qta float null default 0,
+  max_qta float null default 0, 
   CONSTRAINT FK_magazzino_reparto FOREIGN KEY (id_reparto)
   REFERENCES reparti(id),
 

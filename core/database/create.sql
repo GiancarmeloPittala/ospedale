@@ -1,3 +1,4 @@
+-- drop database ospedale;
 create database IF NOT EXISTS  ospedale; 
 use ospedale; 
 
@@ -46,10 +47,10 @@ CREATE TABLE IF NOT EXISTS prescrizioni (
   REFERENCES farmaci(id),
 
   CONSTRAINT FK_prescrizione_paziente FOREIGN KEY (id_paziente)
-  REFERENCES pazienti(id),
+  REFERENCES pazienti(id) on delete cascade on update cascade,
 
   CONSTRAINT FK_prescrizione_medico FOREIGN KEY (id_medico)
-  REFERENCES medici(id) 
+  REFERENCES medici(id)
 
 ) engine = innoDB;
 
@@ -57,8 +58,8 @@ CREATE TABLE IF NOT EXISTS magazzino (
   id int(6) not null auto_increment primary key,
   id_reparto int(6) not null,
   id_farmaco int(6) not null,
-  qta float(3,2) null default 0,
-  max_qta float(3,2) null default 0, 
+  qta DOUBLE(10,4) null default 0,
+  max_qta DOUBLE(10,4) null default 0, 
   CONSTRAINT FK_magazzino_reparto FOREIGN KEY (id_reparto)
   REFERENCES reparti(id),
 

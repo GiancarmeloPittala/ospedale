@@ -70,12 +70,104 @@ function getColumnsOf($conn,$tableName){
 
 function getAllOf($conn,$tableName){
     try {
-      return $conn->query("select * FROM '$tableName';")->fetchAll(PDO::FETCH_ASSOC);
+      return $conn->query("select * FROM $tableName order by id desc;")->fetchAll(PDO::FETCH_ASSOC);
   
     } catch(PDOException $e) {
       //echo "query failed: " . $e->getMessage();
       return false;
     }
-
 }
+
+function addTableRow($conn,$valori){
+  try {
+
+    $nomeTabella = $valori['tableName'];
+    unset($valori['tableName']);
+    unset($valori['submit']);
+
+    $nomeCampi = "";
+    foreach ($valori as $key => $value) {
+      $nomeCampi .= "$key,";
+    }
+    
+    $nomeCampi = substr($nomeCampi,0,strlen($nomeCampi) -1);
+    $valoreCampi = "";
+
+    foreach ($valori as $key => $value) {
+      $valoreCampi .= "'$valori[$key]',";
+    }
+
+    $valoreCampi = substr($valoreCampi,0,strlen($valoreCampi) -1);
+    
+
+    $sql = "INSERT INTO $nomeTabella ($nomeCampi) VALUES($valoreCampi)";
+    $conn->query($sql);
+
+    return true;
+
+  } catch(PDOException $e) {
+    echo "query failed: " . $e->getMessage();
+    return false;
+  }
+}
+
+function editTableRow($conn,$valori){
+  try {
+
+    
+    $sql = "UPDATE $valori[tableName] SET ";
+    
+    /**rimuovo gli indici che non mi servono */
+    unset($valori['tableName']);
+    unset($valori['submit']);
+
+    foreach ($valori as $key => $value) {
+      if(strlen($value) != 0 )
+      $sql .="$key = '$value', ";
+    }
+    //tolgo l'ultima virgola
+    $sql = substr($sql,0,strlen($sql) - 2);
+    
+    $sql .= " where id = $valori[id];";
+    
+    $stm = $conn->query($sql);
+
+    return true;
+
+  } catch(PDOException $e) {
+    echo "query failed: " . $e->getMessage();
+    return false;
+  }
+}
+
+function deleteTableRow($conn,$valori){
+  try {
+    print_r($valori);
+
+
+
+    $sql = "DELETE FROM $valori[tableName] where id = :id ";
+    $stm = $conn->prepare($sql);
+    $stm->bindParam(":id",$valori['id'], PDO::PARAM_INT);
+    $stm->execute();
+
+    return true;
+
+  } catch(PDOException $e) {
+    echo "query failed: " . $e->getMessage();
+    return false;
+  }
+}
+
+function getTableName($conn){
+  try {
+    
+    return $conn->query("show tables;")->fetchAll(PDO::FETCH_ASSOC);
+
+  } catch(PDOException $e) {
+    echo "query failed: " . $e->getMessage();
+    return false;
+  }
+}
+
 ?> 

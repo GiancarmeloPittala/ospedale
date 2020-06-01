@@ -11,8 +11,7 @@ try {
   $conn->query($createDB);
 
 } catch(PDOException $e) {
-  echo "Connection failed: " . $e->getMessage();
-  die();
+  die("Connection failed: " . $e->getMessage());
 }
 
 
