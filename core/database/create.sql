@@ -1,5 +1,5 @@
--- drop database ospedale;
--- create database IF NOT EXISTS  ospedale; 
+-- drop database heroku_aea42162b6df481;
+create database IF NOT EXISTS heroku_aea42162b6df481; 
 use heroku_aea42162b6df481;
 -- use ospedale; 
 
@@ -12,8 +12,8 @@ create table IF NOT EXISTS pazienti (
 create table IF NOT EXISTS farmaci (
   id int(6) not null auto_increment primary key,
   nome varchar(100) not null,
-  qrcode varchar(100) null default "",
-  barcode varchar(100) null default ""
+  qrcode varchar(100) null default "" unique,
+  barcode varchar(100) null default "" unique
 ) engine = innoDB;
 
 create table IF NOT EXISTS reparti(
@@ -35,14 +35,15 @@ create table IF NOT EXISTS medici (
 
 CREATE TABLE IF NOT EXISTS prescrizioni (
   id int(6) not null auto_increment primary key,
+  num_pre int(5) not null,
   id_farmaco int(6) not null,
   id_paziente int(6) not null,
   id_medico int(6) not null,
   dose_assunzione varchar(100) null default "",
   tempi_assunzione varchar(100) null default "",
   note varchar(100) null default "",
-  qta float(3,2) not null default 1,
-  data_inserimento DATETIME default now(),
+  qta DOUBLE(10,2) not null default 1,
+  data_inserimento DATETIME default now() ON UPDATE now(),
 
   CONSTRAINT FK_prescrizione_farmaco FOREIGN KEY (id_farmaco)
   REFERENCES farmaci(id),
@@ -68,3 +69,4 @@ CREATE TABLE IF NOT EXISTS magazzino (
   REFERENCES farmaci(id) 
 
 ) engine = innoDB;
+

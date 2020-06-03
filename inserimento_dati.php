@@ -14,34 +14,6 @@
   ?>
 
   <title>Inserimento dati</title>
-<style>
-.box{
-  padding: 1rem;
-  margin: 20px 0;
-  border:1px solid rgba(0,0,0,.3);
-  position: relative;
-}
-.box > .title{
-  position: absolute;
-  top: 0;
-  background-color :white;
-  transform: translateY(-65%);
-  padding: 0px;
-  font-size: 20px;
-  text-transform:capitalize;
-
-}
-td{
-  max-width: 300px;
-  min-width: 150px;
-}
-tr td:nth-child(2) {
-
-  max-width: 120px;
-  min-width: 60px;
-}
-
-</style>
 </head>
 <body class="container">
 
@@ -131,6 +103,7 @@ else if( isset( $_POST['submit'] ) && $_POST['submit'] === "elimina")
       <table class=" mh-50 mt-3 w-100 table table-striped table-bordered table-hover table-sm" style="min-width:400px" >
         <thead class="thead-dark w-100">
           <tr>
+          <th scope='col'>Azioni</th>
           <?php
             $colonne = getColumnsOf($conn,$tabellaCorrente);
             $nCol = count ($colonne) + 1;
@@ -139,7 +112,6 @@ else if( isset( $_POST['submit'] ) && $_POST['submit'] === "elimina")
             }
             
           ?>
-            <th scope='col'>Azioni</th>
           </tr>
         </thead>
         <tbody>
@@ -152,6 +124,11 @@ else if( isset( $_POST['submit'] ) && $_POST['submit'] === "elimina")
              ?>
                 <tr>
                 <form action='' method='POST'>
+                <td class='d-flex'>
+                  <input class='form-control'  type='text' name='tableName' value='<?= $tabellaCorrente ?>' hidden>
+                  <button name='submit' value='modifica' type='submit' class='btn btn-info'>I</button>
+                  <button name='submit' value='elimina' type='submit' class='ml-2 btn btn-danger'>X</button>
+                  </td>
 
                   <?php  foreach ($value as $key1 => $value1) {
                     $readOnly = $key1 == 'id' || $key1 == 'pass' ? 'readonly' : '';
@@ -160,11 +137,7 @@ else if( isset( $_POST['submit'] ) && $_POST['submit'] === "elimina")
                    ";
                   } ?>
                   
-                  <td class='d-flex'>
-                  <input class='form-control'  type='text' name='tableName' value='<?= $tabellaCorrente ?>' hidden>
-                  <button name='submit' value='modifica' type='submit' class='btn btn-info'>I</button>
-                  <button name='submit' value='elimina' type='submit' class='ml-2 btn btn-danger'>X</button>
-                  </td>
+                  
                 </form>
                 </tr>
               <?php

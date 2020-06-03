@@ -28,7 +28,7 @@
           </li>
         <?php } else {?>
         <li class="nav-item">
-          <a class="nav-link" href="#">Prescrizioni</a>
+          <a class="nav-link" href="prescrizione.php">Prescrizioni</a>
         </li>
 
       <?php } } ?>
@@ -36,8 +36,26 @@
 </nav>
 
 <?php if (isset($_SESSION['login_name']) && isset($_SESSION['login_ruolo'])) {?>
-<p class="text-right mt-4">
-  <span class="border p-3" style="border-radius: 20px" ><?= $_SESSION['login_name'] ?> | <?= $_SESSION['login_ruolo'] ?></span>
-</p>
+<div class="row">
+  
+  <div class="col"></div>
+  <div class="col">
+    <?php 
+    $namePage = substr( $_SERVER['REQUEST_URI'], strrpos($_SERVER['REQUEST_URI'],"/") + 1);
+    $namePage = substr($namePage, 0, strrpos($namePage,".")); 
+    $namePage = $namePage != "index" ? $namePage : "login";
+    ?>
+    <p class="text-center mt-2 p-3 text-capitalize font-weight-bold" style="border-radius: 20px">
+      <span><?= $namePage ?></span>
+    </p>  
+  </div>
+  <div class="col">
+    <p class="text-center mt-2 p-3 border" style="border-radius: 20px">
+      <span><?= $_SESSION['login_name'] ?> | <?= $_SESSION['login_ruolo'] ?></span>
+    </p>
+  </div>
+  
+  
+</div>
 
 <?php } ?>

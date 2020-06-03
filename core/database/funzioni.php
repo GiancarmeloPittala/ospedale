@@ -27,7 +27,7 @@ function registrazione($conn,$nome,$tipo,$email,$pass,$reparto = null){
 function login($conn,$email,$pass){
   
   try {
-    $sql = "SELECT email,pass,nome,ruolo from medici where email = :email ";
+    $sql = "SELECT email,pass,nome,ruolo,id from medici where email = :email ";
     $stm = $conn->prepare($sql);
     $stm->bindParam(":email",$email, PDO::PARAM_STR);
     $stm->execute();
@@ -40,6 +40,7 @@ function login($conn,$email,$pass){
     if (password_verify($pass, $medico['pass'])) {
       $_SESSION['login_name'] = $medico['nome'];
       $_SESSION['login_ruolo'] = $medico['ruolo'];
+      $_SESSION['login_id'] = $medico['id'];
 
       return ["error" => false, "mess" => "Login effettuato"];
   } else {
@@ -68,9 +69,16 @@ function getColumnsOf($conn,$tableName){
 
 }
 
-function getAllOf($conn,$tableName){
+function getAllOf($conn,$tableName,$where = null){
     try {
-      return $conn->query("select * FROM $tableName order by id desc;")->fetchAll(PDO::FETCH_ASSOC);
+      $w= "";
+      if($where) {
+        $w ="WHERE 1=1 ";
+        foreach ($where as $key => $value) {
+          $w .= "AND $key = '$value'"; 
+        }
+      }
+      return $conn->query("select * FROM $tableName $w order by id desc;")->fetchAll(PDO::FETCH_ASSOC);
   
     } catch(PDOException $e) {
       //echo "query failed: " . $e->getMessage();
