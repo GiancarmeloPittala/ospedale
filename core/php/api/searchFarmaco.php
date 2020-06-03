@@ -18,6 +18,7 @@ try {
 
 // print_r($dati); 
 
+$conn = null;
 echo json_encode($dati);
 
 

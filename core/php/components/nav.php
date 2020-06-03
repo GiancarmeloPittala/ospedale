@@ -24,7 +24,7 @@
         </li>
         <?php if($_SESSION['login_ruolo'] == "infermiere" ) {?>
           <li class="nav-item">
-            <a class="nav-link" href="#">Reparto</a>
+            <a class="nav-link" href="reparto.php">Reparto</a>
           </li>
         <?php } else {?>
         <li class="nav-item">

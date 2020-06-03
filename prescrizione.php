@@ -108,18 +108,74 @@ $idDottore = isset($_SESSION['login_id']) ? $_SESSION['login_id'] : die("erorr i
       </table>
 
       </div>
+      <div class="row" >
+        <div class="col"></div>
+        <div class="col"></div>
+        <div class="col text-right"><button type="button" class="btn btn-success" onclick="conferma()">conferma</button></div>
+      </div>
     </div>
 
-    <div class="row" >
-      <div class="col"></div>
-      <div class="col"></div>
-      <div class="col text-right"><button type="button" class="btn btn-success" onclick="conferma()">conferma</button></div>
+    <div>
+        <div class="box">
+              <div class="title">
+                Ultima ricetta medica
+              </div>
+              <div id="ultimaprescrizoni" >
+
+              </div>
+        </div>
     </div>
+
 </body>
 
 <script>
+function addShowPrescrizione(idMedico){
+  // console.log(idMedico)
+  fetch('./core/php/api/ultimaRicetta.php', {
+      method: 'POST',
+      body: JSON.stringify(idMedico),
+      headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/*; charset=UTF-8',
+    }
+    }).then(data => data.json())
+    .then(data => {
+      
+        let div = document.getElementById('ultimaprescrizoni')
+        div.innerHTML = "";
+        let table = document.createElement('table')
+        let thead = document.createElement('thead')
+        let tbody = document.createElement('tbody')
+        console.log(data)
+        thead.innerHTML = `
+          <tr>
+            <th scope="col">Progressivo Ricetta</th>
+            <th scope="col">Numero Farmarci</th>
+            <th scope="col">Numero Farmaci Totatle</th>
+            <th scope="col">Prezzo totale</th>
+          </tr>
+        `
+        tbody.innerHTML = `
+          <tr>
+            <th>${data.num_pre}</th>
+            <td>${data.numeroFarmaci}</td>
+            <td>${data.TotalQta}</td>
+            <td>${data.totalPrezzo} €</td>
+          </tr>
+        `;
+
+        table.classList.add("table", "table-responsive-lg", "w-100")
+        table.append(thead)
+        table.append(tbody)
+        div.append(table);
+
+    }).catch(e => console.error(e))
+
+
+}
+
 function conferma(){
-  console.log("conferma")
+
   const tableRow = document.querySelectorAll("#tabellaFarmaci tbody tr");
   const pazienteSelect = document.getElementById('pazienteSelect')
   const idPaziente = pazienteSelect.options[pazienteSelect.selectedIndex].value;
@@ -137,6 +193,7 @@ function conferma(){
       Note: t[7].value,
     })
   }
+  console.log(newRicetta)
   newRicetta = JSON.stringify(newRicetta);
   fetch('./core/php/api/addRicetta.php', {
       method: 'POST',
@@ -146,15 +203,23 @@ function conferma(){
       'Content-Type': 'application/*; charset=UTF-8',
     }
     })
-    .then(data => data.json())
     .then(data => {
-      console.log("data")
+      /**pulisco la table */
+      let primo = 1
+      let table = document.getElementById('tabellaFarmaci');
+      let rowCount = table.rows.length;
+      for (let i = primo; i < rowCount; i++) 
+          table.deleteRow(primo);
+
+      addShowPrescrizione(idMedico);
+
     }).catch(e => console.log(e))
 }
 function elimina(e){
       const row = e.closest("tr");
       document.getElementById('tabellaFarmaci').deleteRow(row.rowIndex);
-    }
+}
+
   window.onload = () => {
 
     
@@ -223,10 +288,10 @@ function elimina(e){
           
           divFarmaci.innerHTML += `
             <div class="col-12">
-                <div class="alert alert-danger" role="alert">
-                  Più di una corrispondenza rendere univoco il codice
-                </div>
+              <div class="alert alert-danger" role="alert">
+                Più di una corrispondenza rendere univoco il codice
               </div>
+            </div>
             `;
 
         }

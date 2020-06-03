@@ -69,7 +69,7 @@ function getColumnsOf($conn,$tableName){
 
 }
 
-function getAllOf($conn,$tableName,$where = null){
+function getAllOf($conn,$tableName,$where = false){
     try {
       $w= "";
       if($where) {
@@ -176,6 +176,109 @@ function getTableName($conn){
     echo "query failed: " . $e->getMessage();
     return false;
   }
+}
+
+function getAllRicettyByReparto($conn,$idreparto){
+  try {
+    $sql = "select 
+    pr.id,
+    pr.num_pre,  
+    fa.nome as nome_farmaco,
+    fa.prezzo as prezzo_farmaco,
+    pr.qta,
+    pr.qta * fa.prezzo as tot_prezzo,
+    pr.dose_assunzione,
+    pr.tempi_assunzione,
+    pr.note,
+    m.nome as nome_medico,
+    fa.qrcode,
+    fa.barcode,
+    p.nome as nome_paziente, 
+    p.cognome as cognome_paziente
+    from prescrizioni pr 
+    left join farmaci fa on pr.id_farmaco = fa.id 
+    left join pazienti p on pr.id_paziente = p.id 
+    left join medici m on pr.id_medico = m.id 
+    where m.id_reparto = :id_reparto and pr.accettata = 0; ";
+
+    $stm = $conn->prepare($sql);
+    $stm->bindParam(":id_reparto",$idreparto, PDO::PARAM_INT);
+    $result =  $stm->execute();
+  
+    $data = $result ? $stm->fetchAll(PDO::FETCH_ASSOC) : [];
+
+    return $data;
+
+  } catch(PDOException $e) {
+      //echo "query failed: " . $e->getMessage();
+      return false;
+  }
+}
+
+function accettaRicetta($conn,$id,$id_reparto){
+  try {
+
+
+    $sql = "select num_pre from prescrizioni where id = :id";
+    $stm = $conn->prepare($sql);
+    $stm->bindParam(":id",$id, PDO::PARAM_INT);
+    $result = $stm->execute();
+
+    
+    $num_pre = count($stm->fetchAll(PDO::FETCH_ASSOC)) > 0 ? $stm->fetchAll(PDO::FETCH_ASSOC)[0]['num_pre'] : null;
+
+    $sql = "  UPDATE prescrizioni set accettata = 1 where num_pre = $num_pre ";   
+
+    $stm = $conn->query($sql);
+  
+    /**aggiorno la quantià dei prodotti nel pagazzino per quel reparto */
+
+    $sql = "select id_farmaco, qta from prescrizioni where num_pre = (SELECT num_pre FROM prescrizioni WHERE id = $id);";
+    $res = $conn->query($sql);
+
+    
+    if(!$res) return false; 
+    
+    $res = $res->fetchAll(PDO::FETCH_ASSOC);
+    
+    foreach ($res as $key => $value) {
+      $sql = "UPDATE magazzino SET qta = qta - $value[qta] 
+              where id_farmaco = $value[id_farmaco]
+              and id_reparto = $id_reparto";
+      $res = $conn->query($sql);
+    }
+
+    return true;
+
+  } catch(PDOException $e) {
+      echo "query failed: " . $e->getMessage();
+      return false;
+  }
+}
+
+function getFarmaciSottoLaSoglia($conn,$reparto){
+  
+
+    try {
+      $sql = "SELECT *, (max_qta / 100 * 90) as minQta  
+      from magazzino m
+      left join reparti r on r.id = m.id_reparto  
+      left join farmaci f on f.id = m.id_farmaco 
+      where (max_qta - (max_qta / 100 * 90)) > qta and id_reparto = :id_reparto;";
+  
+      $stm = $conn->prepare($sql);
+      $stm->bindParam(":id_reparto",$reparto, PDO::PARAM_INT);
+      $result =  $stm->execute();
+  
+      if($result) 
+        return $stm->fetchAll(PDO::FETCH_ASSOC);
+      else
+        return [];
+  
+    } catch(PDOException $e) {
+        echo "query failed: " . $e->getMessage();
+        return false;
+    }
 }
 
 ?> 

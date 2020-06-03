@@ -13,6 +13,7 @@ try {
 
   foreach ($queryValue as $key => $value) {
 
+
     $stm = $conn->prepare("
       INSERT INTO prescrizioni(num_pre,id_farmaco,id_paziente,id_medico,dose_assunzione,note,qta,tempi_assunzione)
       VALUES (:num_pre,:idFarmaco,:idPaziente,:idMedico,:dose,:note,:qta,:tempi) ");
@@ -23,7 +24,7 @@ try {
       $stm->bindParam(":idMedico",$value['idMedico'], PDO::PARAM_STR);
       $stm->bindParam(":dose",$value['doseAssunzione'], PDO::PARAM_STR);
       $stm->bindParam(":note",$value['Note'], PDO::PARAM_STR);
-      $stm->bindParam(":qta",$value['qta'], PDO::PARAM_INT);
+      $stm->bindParam(":qta",$value['qta'], PDO::PARAM_STR);
       $stm->bindParam(":tempi",$value['tempiAssunzione'], PDO::PARAM_STR);
   
       $stm->execute();
