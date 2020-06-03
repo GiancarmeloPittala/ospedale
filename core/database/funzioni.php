@@ -224,8 +224,8 @@ function accettaRicetta($conn,$id,$id_reparto){
     $stm->bindParam(":id",$id, PDO::PARAM_INT);
     $result = $stm->execute();
 
-    
-    $num_pre = count($stm->fetchAll(PDO::FETCH_ASSOC)) > 0 ? $stm->fetchAll(PDO::FETCH_ASSOC)[0]['num_pre'] : null;
+    var_dump ( $stm->rowCount());
+    $num_pre = $stm->rowCount() > 0 ? $stm->fetchAll(PDO::FETCH_ASSOC)[0]['num_pre'] : null;
 
     $sql = "  UPDATE prescrizioni set accettata = 1 where num_pre = $num_pre ";   
 
