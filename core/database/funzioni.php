@@ -260,7 +260,7 @@ function getFarmaciSottoLaSoglia($conn,$reparto){
   
 
     try {
-      $sql = "SELECT *, (max_qta / 100 * 90) as minQta  
+      $sql = "SELECT *, (max_qta - (max_qta / 100 * 90)) as minQta  
       from magazzino m
       left join reparti r on r.id = m.id_reparto  
       left join farmaci f on f.id = m.id_farmaco 
