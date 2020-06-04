@@ -27,15 +27,16 @@ $tabellaCorrente = isset ($_GET['table']) ? $_GET['table'] : 'Pazienti';
 
 if( isset( $_POST['submit'] ) && $_POST['submit'] === "add")
 {
-  $valori = [];
+  $valori = array();
   foreach ($_POST as $key => $value) {
     $valori[$key] = filter_var($value, FILTER_SANITIZE_STRING);
+    
   }
   addTableRow($conn,$valori);
 }
 else if( isset( $_POST['submit'] ) && $_POST['submit'] === "modifica")
 {
-  $valori = [];
+  $valori = array();
   foreach ($_POST as $key => $value) {
     $valori[$key] = filter_var($value, FILTER_SANITIZE_STRING);
   }
@@ -43,7 +44,7 @@ else if( isset( $_POST['submit'] ) && $_POST['submit'] === "modifica")
 }
 else if( isset( $_POST['submit'] ) && $_POST['submit'] === "elimina")
 {
-  $valori = [];
+  $valori = array();
   foreach ($_POST as $key => $value) {
     $valori[$key] = filter_var($value, FILTER_SANITIZE_STRING);
   }

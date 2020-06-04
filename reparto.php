@@ -23,10 +23,12 @@ if( isset($_SESSION['login_ruolo']) && $_SESSION['login_ruolo'] == "dottore" ) h
 $nomeDottore = isset($_SESSION['login_name']) ? $_SESSION['login_name'] : "erorr";
 $idDottore = isset($_SESSION['login_id']) ? $_SESSION['login_id'] : die("erorr id not found !");
 
-$repartoid = getAllOf($conn,"medici",['id' => $_SESSION['login_id'] ]);
+$repartoid = getAllOf($conn,"medici",array('id' => $_SESSION['login_id']) );
+
+
 $repartoid = $repartoid ? $repartoid[0]['id_reparto'] : "";
 
-$nomeReparto = getAllOf($conn,"reparti",['id' => $repartoid]);
+$nomeReparto = getAllOf($conn,"reparti",array('id' => $repartoid));
 $nomeReparto= $nomeReparto ?  $nomeReparto = $nomeReparto[0]['nome'] : "";
 
 if(isset($_GET['accettaRicetta']) && isset($_GET['id'])){
@@ -64,7 +66,7 @@ if(isset($_GET['accettaRicetta']) && isset($_GET['id'])){
             </tr>
           </thead>
         ';
-        foreach ($farmaci as $key => $value) { ?>
+        foreach ($farmaci as $key => $value) {?>
             <tr>
               <th scope="row"><?= $value['id_farmaco'] ?></th>
               <td><?= $value['nome'] ?></td>
@@ -72,7 +74,7 @@ if(isset($_GET['accettaRicetta']) && isset($_GET['id'])){
               <td><?php echo $value['max_qta'] ?></td>
               <td><?php echo $value['minQta'] ?></td>
             </tr>
-       <?php } } ?>
+       <?php  } } ?>
     </table>
   </div>
 </div>

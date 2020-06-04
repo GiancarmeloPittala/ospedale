@@ -1,4 +1,4 @@
-drop database ospedale;
+-- drop database ospedale;
 create database IF NOT EXISTS ospedale; 
 use ospedale;
 

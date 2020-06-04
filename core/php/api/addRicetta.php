@@ -8,8 +8,9 @@ try {
 
   $ultimoNumRicetta = $conn->query("SELECT num_pre from prescrizioni order by num_pre desc limit 1");
   
-  $ultimoNumRicetta =  $ultimoNumRicetta ?  $ultimoNumRicetta->fetchAll(PDO::FETCH_ASSOC)[0]['num_pre'] + 1 : 1;
+  $ultimoNumRicetta =  $ultimoNumRicetta ?  $ultimoNumRicetta->fetchAll(PDO::FETCH_ASSOC) : 1;
 
+  $ultimoNumRicetta =  $ultimoNumRicetta[0]['num_pre'] + 1 ;
 
   foreach ($queryValue as $key => $value) {
 

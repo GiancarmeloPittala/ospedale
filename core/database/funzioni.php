@@ -64,6 +64,7 @@ function getColumnsOf($conn,$tableName){
 
 }
 function getAllOf($conn,$tableName,$where = false){
+
     try {
       $w= "";
       if($where) {

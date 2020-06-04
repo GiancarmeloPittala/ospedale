@@ -9,11 +9,11 @@ try {
   $dati = $conn->query("SELECT * FROM farmaci where  barcode = '$queryValue' or qrcode = '$queryValue'");
   
   if($dati) $dati = $dati->fetchAll(PDO::FETCH_ASSOC);
-  else $dati = [];
+  else $dati = array();
 } catch(PDOException $e) {
 
   echo ("Connection failed: " . $e->getMessage());
-  $dati = [];
+  $dati = array();
 }
 
 // print_r($dati); 

@@ -55,7 +55,7 @@ $idDottore = isset($_SESSION['login_id']) ? $_SESSION['login_id'] : die("erorr i
 
         <?php
           if(isset($_GET['paziente']) ){
-            $paziente = getAllOf($conn,'pazienti',['id' => $_GET['paziente'] ]);
+            $paziente = getAllOf($conn,'pazienti',array('id' => $_GET['paziente']) );
 
             if($paziente)
             foreach ($paziente[0] as $key => $value) if($key != 'id') {?>
@@ -130,7 +130,7 @@ $idDottore = isset($_SESSION['login_id']) ? $_SESSION['login_id'] : die("erorr i
 
 <script>
 function addShowPrescrizione(idMedico){
-  // console.log(idMedico)
+   console.log(idMedico)
   fetch('./core/php/api/ultimaRicetta.php', {
       method: 'POST',
       body: JSON.stringify(idMedico),
@@ -140,7 +140,6 @@ function addShowPrescrizione(idMedico){
     }
     }).then(data => data.json())
     .then(data => {
-      
         let div = document.getElementById('ultimaprescrizoni')
         div.innerHTML = "";
         let table = document.createElement('table')
@@ -183,6 +182,7 @@ function conferma(){
   let newRicetta = [];
   for(let i = 1; i<tableRow.length; i++){
     let t = tableRow[i].querySelectorAll("input");
+  
     newRicetta.push({
       idPaziente : idPaziente,
       idMedico: idMedico,
@@ -259,7 +259,7 @@ function elimina(e){
 
     function cerca(){
       let codiceRicerca = inputFarmarcoRicerca.value;
-      if(codiceRicerca.length < 2) return 
+      if(codiceRicerca.length < 1) return 
 
       fetch('./core/php/api/searchFarmaco.php', {
         method: 'POST',
@@ -295,6 +295,7 @@ function elimina(e){
             `;
 
         }
+        
       })
       .catch( e => console.error(e) )
     }

@@ -20,12 +20,13 @@ try {
       
       $result = $stm->execute();
 
-      $dati = $result ? $stm->fetchAll(PDO::FETCH_ASSOC)[0] : [];
+      $dati = $result ? $stm->fetchAll(PDO::FETCH_ASSOC) : array();
 
+      $dati = $dati[0];
 } catch(PDOException $e) {
 
   echo ("Connection failed: " . $e->getMessage());
-  $dati = [];
+  $dati = array();
 }
 
 $conn = null;
