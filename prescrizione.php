@@ -146,7 +146,7 @@ function addShowPrescrizione(idMedico){
         let table = document.createElement('table')
         let thead = document.createElement('thead')
         let tbody = document.createElement('tbody')
-        console.log(data)
+        
         thead.innerHTML = `
           <tr>
             <th scope="col">Progressivo Ricetta</th>
@@ -193,7 +193,7 @@ function conferma(){
       Note: t[7].value,
     })
   }
-  console.log(newRicetta)
+  
   newRicetta = JSON.stringify(newRicetta);
   fetch('./core/php/api/addRicetta.php', {
       method: 'POST',
@@ -213,7 +213,7 @@ function conferma(){
 
       addShowPrescrizione(idMedico);
 
-    }).catch(e => console.log(e))
+    }).catch(e => console.error(e))
 }
 function elimina(e){
       const row = e.closest("tr");
