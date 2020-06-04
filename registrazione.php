@@ -25,12 +25,12 @@ include 'core/database/funzioni.php';
 if( isset($_POST['reg_email']) )
 {
 
-  $nome = filter_var($_POST['reg_nome'], FILTER_SANITIZE_STRING);
-  $ruolo = filter_var($_POST['reg_ruolo'], FILTER_SANITIZE_STRING);
-  $email = filter_var($_POST['reg_email'], FILTER_SANITIZE_STRING);
-  $pass = filter_var($_POST['reg_pass'], FILTER_SANITIZE_STRING);
+  // $nome = filter_var($_POST['reg_nome'], FILTER_SANITIZE_STRING);
+  // $ruolo = filter_var($_POST['reg_ruolo'], FILTER_SANITIZE_STRING);
+  // $email = filter_var($_POST['reg_email'], FILTER_SANITIZE_STRING);
+  // $pass = filter_var($_POST['reg_pass'], FILTER_SANITIZE_STRING);
   
-  $stato = registrazione($conn,$nome,$ruolo,$email,$pass);
+  $stato = registrazione($conn,$_POST['reg_nome'],$_POST['reg_ruolo'],$_POST['reg_email'],$_POST['reg_pass']);
 }
 
 ?>

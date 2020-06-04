@@ -1,4 +1,4 @@
--- drop database ospedale;
+drop database ospedale;
 create database IF NOT EXISTS ospedale; 
 use ospedale;
 
@@ -43,7 +43,6 @@ CREATE TABLE IF NOT EXISTS prescrizioni (
   tempi_assunzione varchar(100) null default "",
   note varchar(100) null default "",
   qta DOUBLE(10,2) not null default 1,
-  data_inserimento DATETIME default now() ON UPDATE now(),
   accettata TINYINT(1) null default 0,
 
   CONSTRAINT FK_prescrizione_farmaco FOREIGN KEY (id_farmaco)

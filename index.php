@@ -26,10 +26,10 @@ include 'core/database/funzioni.php';
 if( isset($_POST['log_email']) )
 {
 
-  $email = filter_var($_POST['log_email'], FILTER_SANITIZE_STRING);
-  $pass = filter_var($_POST['log_pass'], FILTER_SANITIZE_STRING);
+  // $email = filter_var($_POST['log_email'], FILTER_SANITIZE_STRING);
+  // $pass = filter_var($_POST['log_pass'], FILTER_SANITIZE_STRING);
   
-  $stato = login($conn,$email,$pass);
+  $stato = login($conn,$_POST['log_email'],$_POST['log_pass']);
 }
 
 include 'core/php/components/nav.php';

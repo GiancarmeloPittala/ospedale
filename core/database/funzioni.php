@@ -2,7 +2,7 @@
 
 function registrazione($conn,$nome,$tipo,$email,$pass,$reparto = null){
 
-  $pass = password_hash($pass, PASSWORD_DEFAULT);
+  //$pass = password_hash($pass, PASSWORD_DEFAULT);
   try {
   $sql = "INSERT INTO medici (nome, ruolo, email, pass,id_reparto) VALUES (:nome,:tipo,:email,:pass,:reparto) ";
   $stm = $conn->prepare($sql);
@@ -23,7 +23,6 @@ function registrazione($conn,$nome,$tipo,$email,$pass,$reparto = null){
   }
 
 }
-
 function login($conn,$email,$pass){
   
   try {
@@ -33,30 +32,26 @@ function login($conn,$email,$pass){
     $stm->execute();
   
     if( $stm->rowCount() == 0){//email inesistente
-      return ["error" => true, "mess" => "Account non trovato"];
+      return array("error" => true, "mess" => "Account non trovato");
     }
   
     $medico = $stm->fetchAll()[0];
-    if (password_verify($pass, $medico['pass'])) {
+    if ($pass == $medico['pass'] ) {
       $_SESSION['login_name'] = $medico['nome'];
       $_SESSION['login_ruolo'] = $medico['ruolo'];
       $_SESSION['login_id'] = $medico['id'];
 
-      return ["error" => false, "mess" => "Login effettuato"];
+      return array("error" => false, "mess" => "Login effettuato");
   } else {
-    return ["error" => true, "mess" => "password errata"];
+    return array("error" => true, "mess" => "password errata" );
   }
    
   } catch(PDOException $e) {
       //echo "query failed: " . $e->getMessage();
-      return ["error" => true, "mess" => "query fallita"];
+      return array("error" => true, "mess" => "query fallita");
   }
- 
-
 
 }
-
-
 function getColumnsOf($conn,$tableName){
 
   try {
@@ -68,7 +63,6 @@ function getColumnsOf($conn,$tableName){
   }
 
 }
-
 function getAllOf($conn,$tableName,$where = false){
     try {
       $w= "";
@@ -85,7 +79,6 @@ function getAllOf($conn,$tableName,$where = false){
       return false;
     }
 }
-
 function addTableRow($conn,$valori){
   try {
 
@@ -118,7 +111,6 @@ function addTableRow($conn,$valori){
     return false;
   }
 }
-
 function editTableRow($conn,$valori){
   try {
 
@@ -147,12 +139,8 @@ function editTableRow($conn,$valori){
     return false;
   }
 }
-
 function deleteTableRow($conn,$valori){
   try {
-    print_r($valori);
-
-
 
     $sql = "DELETE FROM $valori[tableName] where id = :id ";
     $stm = $conn->prepare($sql);
@@ -166,7 +154,6 @@ function deleteTableRow($conn,$valori){
     return false;
   }
 }
-
 function getTableName($conn){
   try {
     
@@ -177,7 +164,6 @@ function getTableName($conn){
     return false;
   }
 }
-
 function getAllRicettyByReparto($conn,$idreparto){
   try {
     $sql = "select 
@@ -205,7 +191,7 @@ function getAllRicettyByReparto($conn,$idreparto){
     $stm->bindParam(":id_reparto",$idreparto, PDO::PARAM_INT);
     $result =  $stm->execute();
   
-    $data = $result ? $stm->fetchAll(PDO::FETCH_ASSOC) : [];
+    $data = $result ? $stm->fetchAll(PDO::FETCH_ASSOC) : array();
 
     return $data;
 
@@ -214,10 +200,8 @@ function getAllRicettyByReparto($conn,$idreparto){
       return false;
   }
 }
-
 function accettaRicetta($conn,$id,$id_reparto){
   try {
-
 
     $sql = "select num_pre from prescrizioni where id = :id";
     $stm = $conn->prepare($sql);
@@ -254,10 +238,7 @@ function accettaRicetta($conn,$id,$id_reparto){
       return false;
   }
 }
-
 function getFarmaciSottoLaSoglia($conn,$reparto){
-  
-
     try {
       $sql = "SELECT *, (max_qta - (max_qta / 100 * 90)) as minQta  
       from magazzino m
@@ -272,12 +253,11 @@ function getFarmaciSottoLaSoglia($conn,$reparto){
       if($result) 
         return $stm->fetchAll(PDO::FETCH_ASSOC);
       else
-        return [];
+        return array();
   
     } catch(PDOException $e) {
         echo "query failed: " . $e->getMessage();
         return false;
     }
 }
-
 ?> 
