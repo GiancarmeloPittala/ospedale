@@ -35,7 +35,9 @@ function login($conn,$email,$pass){
       return array("error" => true, "mess" => "Account non trovato");
     }
   
-    $medico = $stm->fetchAll()[0];
+    $medico = $stm->fetchAll();
+
+    $medico = $medico[0];
     if ($pass == $medico['pass'] ) {
       $_SESSION['login_name'] = $medico['nome'];
       $_SESSION['login_ruolo'] = $medico['ruolo'];
@@ -209,7 +211,8 @@ function accettaRicetta($conn,$id,$id_reparto){
     $stm->bindParam(":id",$id, PDO::PARAM_INT);
     $result = $stm->execute();
 
-    $num_pre = $stm->rowCount() > 0 ? $stm->fetchAll(PDO::FETCH_ASSOC)[0]['num_pre'] : null;
+    $num_pre = $stm->rowCount() > 0 ? $stm->fetchAll(PDO::FETCH_ASSOC) : null;
+    $num_pre = $num_pre ? $num_pre[0]['num_pre'] : $num_pre;
 
     $sql = "  UPDATE prescrizioni set accettata = 1 where num_pre = $num_pre ";   
 
