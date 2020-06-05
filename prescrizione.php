@@ -42,7 +42,7 @@ $idDottore = isset($_SESSION['login_id']) ? $_SESSION['login_id'] : die("erorr i
               <?php  
                 $utenti = getAllOf($conn,'pazienti');
                 foreach ($utenti as $key => $value) { ?>
-                  <option <?php $gg = isset($_GET['paziente']) && $_GET['paziente'] == $value['id'] ? 'selected' : ''; echo $gg ?> value="<?= $value['id'] ?>"> <?= $value['cognome']." ".$value['nome'] ?> </option>
+                  <option <?php $gg = isset($_GET['paziente']) && $_GET['paziente'] == $value['id'] ? 'selected' : ''; echo $gg ?> value="<?php echo $value['id'] ?>"> <?php echo $value['cognome']." ".$value['nome'] ?> </option>
               <?php } ?>
               </select>
               <button  class="btn btn-success">seleziona</button>
@@ -61,8 +61,8 @@ $idDottore = isset($_SESSION['login_id']) ? $_SESSION['login_id'] : die("erorr i
             foreach ($paziente[0] as $key => $value) if($key != 'id') {?>
               <div class="col-6">
                 <div class="d-flex">
-                  <p class="input-group-text bg-info text-white" style="font-size: 12px"><?= $key?></p>
-                  <input readonly class="form-control" value="<?= $value?>"></input>
+                  <p class="input-group-text bg-info text-white" style="font-size: 12px"><?php echo $key?></p>
+                  <input readonly class="form-control" value="<?php echo $value?>"></input>
                 </div>
               </div>
             <?php }} ?>
@@ -178,7 +178,7 @@ function conferma(){
   const tableRow = document.querySelectorAll("#tabellaFarmaci tbody tr");
   const pazienteSelect = document.getElementById('pazienteSelect')
   const idPaziente = pazienteSelect.options[pazienteSelect.selectedIndex].value;
-  const idMedico = "<?= $_SESSION['login_id'] ?>";
+  const idMedico = "<?php echo $_SESSION['login_id'] ?>";
   let newRicetta = [];
   for(let i = 1; i<tableRow.length; i++){
     let t = tableRow[i].querySelectorAll("input");

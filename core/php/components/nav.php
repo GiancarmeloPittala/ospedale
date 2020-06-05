@@ -46,12 +46,12 @@
     $namePage = $namePage != "index" ? $namePage : "login";
     ?>
     <p class="text-center mt-2 p-3 text-capitalize font-weight-bold" style="border-radius: 20px">
-      <span><?= $namePage ?></span>
+      <span><?php echo $namePage ?></span>
     </p>  
   </div>
   <div class="col">
     <p class="text-center mt-2 p-3 border" style="border-radius: 20px">
-      <span><?= $_SESSION['login_name'] ?> | <?= $_SESSION['login_ruolo'] ?></span>
+      <span><?php echo $_SESSION['login_name'] ?> | <?php echo $_SESSION['login_ruolo'] ?></span>
     </p>
   </div>
   

@@ -56,13 +56,13 @@ else if( isset( $_POST['submit'] ) && $_POST['submit'] === "elimina")
 
 <div class="box">
   <div class="title">
-  <?= $tabellaCorrente ?> 
+  <?php echo $tabellaCorrente ?> 
   </div>
   <div class="body d-flex"style="max-height: 400px;overflow-y: scroll;" >
     <div class="w-100" >
       <!-- Button trigger modal per aggiunta paziente -->
       <button <?php if($tabellaCorrente == 'medici') echo 'disabled'; ?> type="button" class="btn btn-success" data-toggle="modal" data-target="#pazienteModal">
-        Aggiungi in <?= $tabellaCorrente ?> 
+        Aggiungi in <?php echo $tabellaCorrente ?> 
       </button>
       
       <!-- Modal per aggiunta paziente-->
@@ -70,7 +70,7 @@ else if( isset( $_POST['submit'] ) && $_POST['submit'] === "elimina")
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">Aggiungi in <?= $tabellaCorrente ?> </h5>
+              <h5 class="modal-title" id="exampleModalLabel">Aggiungi in <?php echo $tabellaCorrente ?> </h5>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
@@ -84,15 +84,15 @@ else if( isset( $_POST['submit'] ) && $_POST['submit'] === "elimina")
                 foreach ($colonne as $key => $value) { if($value['Field'] != 'id') {?>
                
                 <div class="form-group">
-                  <label for="<?= $value['Field'] ?>"><?= $value['Field'] ?></label>
-                  <input <?php if($value['Null'] == 'NO') echo "required" ?> name="<?= $value['Field'] ?>" type="text" class="form-control" >
+                  <label for="<?php echo $value['Field'] ?>"><?php echo $value['Field'] ?></label>
+                  <input <?php if($value['Null'] == 'NO') echo "required" ?> name="<?php echo $value['Field'] ?>" type="text" class="form-control" >
                 </div>
                   
                 <?php  }} ?>
              
             </div>
             <div class="modal-footer">
-              <input hidden type="text" name="tableName" value="<?= $tabellaCorrente ?>">
+              <input hidden type="text" name="tableName" value="<?php echo $tabellaCorrente ?>">
               <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
               <button type="submit" name="submit" value="add" class="btn btn-primary">Conferma</button>
             </form>
@@ -126,7 +126,7 @@ else if( isset( $_POST['submit'] ) && $_POST['submit'] === "elimina")
                 <tr>
                 <form action='' method='POST'>
                 <td class='d-flex'>
-                  <input class='form-control'  type='text' name='tableName' value='<?= $tabellaCorrente ?>' hidden>
+                  <input class='form-control'  type='text' name='tableName' value='<?php echo $tabellaCorrente ?>' hidden>
                   <button name='submit' value='modifica' type='submit' class='btn btn-info'>I</button>
                   <button name='submit' value='elimina' type='submit' class='ml-2 btn btn-danger'>X</button>
                   </td>

@@ -68,9 +68,9 @@ if(isset($_GET['accettaRicetta']) && isset($_GET['id'])){
         ';
         foreach ($farmaci as $key => $value) {?>
             <tr>
-              <th scope="row"><?= $value['id_farmaco'] ?></th>
-              <td><?= $value['nome'] ?></td>
-              <td><?= $value['qta'] ?></td>
+              <th scope="row"><?php echo $value['id_farmaco'] ?></th>
+              <td><?php echo $value['nome'] ?></td>
+              <td><?php echo $value['qta'] ?></td>
               <td><?php echo $value['max_qta'] ?></td>
               <td><?php echo $value['minQta'] ?></td>
             </tr>
@@ -82,7 +82,7 @@ if(isset($_GET['accettaRicetta']) && isset($_GET['id'])){
 
 <div class="box">
   <div class="title" style="font-size:13px">
-    Ricette mediche da confermare per il tuo reparto | <b><?= $nomeReparto ?> </b>
+    Ricette mediche da confermare per il tuo reparto | <b><?php echo $nomeReparto ?> </b>
   </div>
   <div class="body">
     <table class="mh-50 mt-3 table-responsive table table-striped table-bordered table-hover table-sm">
@@ -94,7 +94,7 @@ if(isset($_GET['accettaRicetta']) && isset($_GET['id'])){
           foreach ($ricetteNonConfermate as $key => $value) {
            if($key == 0){ echo "<th>Accetta</th>";
             foreach ($value as $key1 => $value1) if($key1 != 'id'){?>
-              <th scope="col"><?= $key1?></th>
+              <th scope="col"><?php echo $key1?></th>
           <?php }} ?>
         </tr>
       </thead>
