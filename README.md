@@ -1,5 +1,3 @@
 # ospedale
 
-## DEMO
-
-[likn](https://ospedalework.herokuapp.com/)
+## [DEMO](https://ospedalework.herokuapp.com/)
